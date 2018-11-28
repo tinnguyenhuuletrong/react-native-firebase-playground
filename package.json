@@ -34,7 +34,10 @@
     "format": "prettier-eslint \". /**/*.js\" --write"
   },
   "jest": {
-    "preset": "react-native"
+    "preset": "react-native",
+    "transformIgnorePatterns": [
+      "node_modules/(?!native-base-shoutem-theme|react-native-easy-grid|react-native|react-navigation|expo)"
+    ]
   },
   "dependencies": {
     "babel-plugin-transform-flow-strip-types": "^6.22.0",

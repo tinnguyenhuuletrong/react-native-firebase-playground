@@ -7,6 +7,8 @@ const onLogin = jest.fn()
 const loginForm = React.Component
 
 it('renders correctly', () => {
-  const tree = renderer.create(<Login onLogin={onLogin} loginForm={loginForm} />).toJSON()
+  const tree = renderer
+    .create(<Login onLogin={onLogin} loginForm={loginForm} />)
+    .toJSON()
   expect(tree).toMatchSnapshot()
 })

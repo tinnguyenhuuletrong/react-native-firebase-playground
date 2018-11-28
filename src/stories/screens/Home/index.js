@@ -1,4 +1,4 @@
-import * as React from "react";
+import * as React from 'react'
 import {
   Container,
   Header,
@@ -12,16 +12,16 @@ import {
   Right,
   List,
   ListItem
-} from "native-base";
+} from 'native-base'
 
-import styles from "./styles";
+import styles from './styles'
 export interface Props {
   navigation: any;
   list: any;
 }
 export interface State {}
 class Home extends React.Component<Props, State> {
-  render() {
+  render () {
     return (
       <Container style={styles.container}>
         <Header>
@@ -29,8 +29,8 @@ class Home extends React.Component<Props, State> {
             <Button transparent>
               <Icon
                 active
-                name="menu"
-                onPress={() => this.props.navigation.navigate("DrawerOpen")}
+                name='menu'
+                onPress={() => this.props.navigation.navigate('DrawerOpen')}
               />
             </Button>
           </Left>
@@ -45,7 +45,7 @@ class Home extends React.Component<Props, State> {
               <ListItem
                 key={i}
                 onPress={() =>
-                  this.props.navigation.navigate("BlankPage", {
+                  this.props.navigation.navigate('BlankPage', {
                     name: { item }
                   })}
               >
@@ -55,8 +55,8 @@ class Home extends React.Component<Props, State> {
           </List>
         </Content>
       </Container>
-    );
+    )
   }
 }
 
-export default Home;
+export default Home

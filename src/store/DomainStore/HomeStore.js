@@ -1,4 +1,4 @@
-import { observable, action } from "mobx";
+import { observable, action } from 'mobx'
 
 class HomeStore {
   @observable hasErrored = false;
@@ -6,10 +6,10 @@ class HomeStore {
   @observable items = [];
 
   @action
-  fetchItems(data) {
-    this.items = data;
-    this.isLoading = false;
+  fetchItems (data) {
+    this.items = data
+    this.isLoading = false
   }
 }
 
-export default HomeStore;
+export default HomeStore

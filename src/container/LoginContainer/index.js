@@ -1,26 +1,29 @@
 // @flow
 import * as React from 'react'
-import { Item, Input, Icon, Form, Toast } from 'native-base'
+import { Item, Input, Icon, Form, Toast, View, Spinner } from 'native-base'
 import { observer, inject } from 'mobx-react/native'
 
-import Login from '../../stories/screens/Login'
+import LoginScreen from './LoginScreen'
 
 export interface Props {
   navigation: any;
   loginForm: any;
+  authStore: any;
 }
 export interface State {}
 
-@inject('loginForm')
+@inject('loginForm', 'authStore')
 @observer
 export default class LoginContainer extends React.Component<Props, State> {
-  emailInput: any
-  pwdinput: any
+  goToMainMenu () {
+    this.props.loginForm.clearStore()
+    this.props.navigation.navigate('Drawer')
+  }
+
   login () {
     this.props.loginForm.validateForm()
     if (this.props.loginForm.isValid) {
-      this.props.loginForm.clearStore()
-      this.props.navigation.navigate('Drawer')
+      this.goToMainMenu()
     } else {
       Toast.show({
         text: 'Enter Valid Email & password!',
@@ -30,8 +33,22 @@ export default class LoginContainer extends React.Component<Props, State> {
       })
     }
   }
-  render () {
-    const form = this.props.loginForm
+
+  componentDidUpdate () {
+    const {
+      authStore: { currentUser }
+    } = this.props
+    if (currentUser) {
+      this.goToMainMenu()
+    }
+  }
+
+  loginAnonymous () {
+    const { authStore } = this.props
+    authStore.loginWithAnonymous()
+  }
+
+  _renderLoginForm (form) {
     const Fields = (
       <Form>
         <Item error={!!form.emailError}>
@@ -39,7 +56,6 @@ export default class LoginContainer extends React.Component<Props, State> {
           <Input
             placeholder='Email'
             keyboardType='email-address'
-            ref={c => (this.emailInput = c)}
             value={form.email}
             onBlur={() => form.validateEmail()}
             onChangeText={e => form.emailOnChange(e)}
@@ -49,7 +65,6 @@ export default class LoginContainer extends React.Component<Props, State> {
           <Icon active name='unlock' />
           <Input
             placeholder='Password'
-            ref={c => (this.pwdinput = c)}
             value={form.password}
             onBlur={() => form.validatePassword()}
             onChangeText={e => form.passwordOnChange(e)}
@@ -59,11 +74,22 @@ export default class LoginContainer extends React.Component<Props, State> {
       </Form>
     )
     return (
-      <Login
+      <LoginScreen
         navigation={this.props.navigation}
         loginForm={Fields}
         onLogin={() => this.login()}
+        onLoginAnonymous={() => this.loginAnonymous()}
       />
     )
+  }
+
+  render () {
+    const form = this.props.loginForm
+    const {
+      authStore: { currentUser, isProcessing, isReady }
+    } = this.props
+
+    if (!isReady || isProcessing) return <Spinner />
+    else return currentUser ? <View /> : this._renderLoginForm(form)
   }
 }

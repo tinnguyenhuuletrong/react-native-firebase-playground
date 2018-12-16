@@ -1,12 +1,12 @@
 // @flow
 import * as React from 'react'
-import BlankPage from '../../stories/screens/BlankPage'
+import BlankScreen from './BlankScreen'
 export interface Props {
   navigation: any;
 }
 export interface State {}
 export default class BlankPageContainer extends React.Component<Props, State> {
   render () {
-    return <BlankPage navigation={this.props.navigation} />
+    return <BlankScreen navigation={this.props.navigation} />
   }
 }

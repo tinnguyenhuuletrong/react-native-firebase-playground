@@ -1,6 +1,7 @@
 import * as React from 'react'
 import { Text, Container, List, ListItem, Content } from 'native-base'
 import { NavigationActions, StackActions } from 'react-navigation'
+import { inject } from 'mobx-react/native'
 
 const routes = [
   {
@@ -19,14 +20,20 @@ const routes = [
 
 export interface Props {
   navigation: any;
+  authStore: any;
 }
 export interface State {}
 const resetAction = StackActions.reset({
   index: 0,
   actions: [NavigationActions.navigate({ routeName: 'Login' })]
 })
+
+@inject('authStore')
 export default class Sidebar extends React.Component<Props, State> {
   render () {
+    const {
+      authStore: { logout }
+    } = this.props
     return (
       <Container>
         <Content>
@@ -37,10 +44,13 @@ export default class Sidebar extends React.Component<Props, State> {
               return (
                 <ListItem
                   button
-                  onPress={() => {
-                    data.route === 'Login'
-                      ? this.props.navigation.dispatch(resetAction)
-                      : this.props.navigation.navigate(data.route)
+                  onPress={async () => {
+                    if (data.route === 'Login') {
+                      await logout()
+                      this.props.navigation.dispatch(resetAction)
+                    } else {
+                      this.props.navigation.navigate(data.route)
+                    }
                   }}
                 >
                   <Text>{data.caption}</Text>

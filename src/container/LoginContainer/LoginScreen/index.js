@@ -16,6 +16,7 @@ import {
 export interface Props {
   loginForm: any;
   onLogin: Function;
+  onLoginAnonymous: Function;
 }
 export interface State {}
 class Login extends React.Component<Props, State> {
@@ -38,6 +39,11 @@ class Login extends React.Component<Props, State> {
           <View padder>
             <Button block onPress={() => this.props.onLogin()}>
               <Text>Login</Text>
+            </Button>
+          </View>
+          <View padder>
+            <Button block onPress={() => this.props.onLoginAnonymous()}>
+              <Text>Login Anonymous</Text>
             </Button>
           </View>
         </Content>
